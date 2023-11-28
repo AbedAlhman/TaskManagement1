@@ -102,9 +102,10 @@ public class SignupFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-
+                              Toast.makeText(getActivity(),"nice", Toast.LENGTH_SHORT).show();
                         }
                         else{
+                            Toast.makeText(getActivity(),"not nice", Toast.LENGTH_SHORT).show();
 
                         }
 

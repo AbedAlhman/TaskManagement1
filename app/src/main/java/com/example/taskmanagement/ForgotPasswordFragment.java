@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -83,7 +84,10 @@ public class ForgotPasswordFragment extends Fragment {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
 
+                            Toast.makeText(getActivity(), "works!", Toast.LENGTH_SHORT).show();
+
                         } else {
+                            Toast.makeText(getActivity(), "no work", Toast.LENGTH_SHORT).show();
 
                         }
 

@@ -41,14 +41,5 @@
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="2dp" />
 
-        <CheckBox
-            android:id="@+id/checkBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/checkbox"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="115dp"
-            android:onClick="Check"
-            tools:ignore="MissingConstraints" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
