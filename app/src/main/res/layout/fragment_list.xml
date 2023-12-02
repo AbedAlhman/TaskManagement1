@@ -5,20 +5,32 @@
     android:layout_height="match_parent"
     tools:context=".ListFragment">
 
-    <ListView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/listView" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <CheckedTextView
-        android:id="@+id/simpleCheckedTextView"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:checked="false"
-        android:gravity="center_vertical"
-        android:paddingLeft="15dp"
-        android:textColor="#000"
-        android:text="Checked Text View Example" />
+        <CheckBox
+            android:id="@+id/cbTask"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:layout_editor_absoluteX="212dp"
+            tools:layout_editor_absoluteY="1dp"
+            tools:ignore="MissingConstraints" />
+
+        <EditText
+            android:id="@+id/etTaskTask"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/task"
+            android:inputType="text"
+            android:minHeight="48dp"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="2dp"
+            tools:layout_editor_absoluteY="1dp"
+            android:autofillHints="" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
 
 

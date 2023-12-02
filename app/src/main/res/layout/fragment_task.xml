@@ -20,12 +20,13 @@
             android:checkMark="@drawable/checked"
             android:checked="true"
             android:gravity="center"
-            android:text="Android"
+            android:text="@string/android"
             android:textColor="#fff"
             android:textSize="20sp"
             android:textStyle="bold|italic"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
 
@@ -57,7 +58,7 @@
             app:layout_constraintEnd_toStartOf="@+id/textView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="LabelFor,MissingConstraints,SpeakableTextPresentCheck" />
+            tools:ignore="LabelFor,MissingConstraints,SpeakableTextPresentCheck,TouchTargetSizeCheck,VisualLintTextFieldSize" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
