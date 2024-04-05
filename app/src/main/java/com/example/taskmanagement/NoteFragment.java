@@ -7,14 +7,13 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ListFragment#newInstance} factory method to
+ * Use the {@link NoteFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ListFragment extends Fragment {
+public class NoteFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -25,7 +24,7 @@ public class ListFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public ListFragment() {
+    public NoteFragment() {
         // Required empty public constructor
     }
 
@@ -35,11 +34,11 @@ public class ListFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ListFragment.
+     * @return A new instance of fragment NoteFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ListFragment newInstance(String param1, String param2) {
-        ListFragment fragment = new ListFragment();
+    public static NoteFragment newInstance(String param1, String param2) {
+        NoteFragment fragment = new NoteFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -60,21 +59,6 @@ public class ListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_list, container, false);
-
-
+        return inflater.inflate(R.layout.fragment_note, container, false);
     }
-
-    String value;
-    String[] superStarNames = {"John Cena", "Randy Orton", "Triple H", "Roman Reign", "Sheamus"};
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getActivity().setContentView(R.layout.activity_main);
-        // initiate a ListView
-        ListView listView = (ListView) getActivity().findViewById(R.id.listView);
-        // set the adapter to fill the data in ListView
-        CustomAdapter customAdapter = new CustomAdapter(getActivity().getApplicationContext(), superStarNames);
-        listView.setAdapter(customAdapter);
 }
