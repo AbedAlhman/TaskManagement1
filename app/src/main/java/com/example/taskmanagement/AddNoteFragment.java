@@ -7,6 +7,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+
+import com.google.android.material.button.MaterialButton;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +17,13 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class AddNoteFragment extends Fragment {
+
+    private EditText titleInput, descriptionInput;
+    private MaterialButton saveBtn;
+
+
+
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -53,6 +63,7 @@ public class AddNoteFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
@@ -61,4 +72,5 @@ public class AddNoteFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_add_note, container, false);
     }
+
 }
