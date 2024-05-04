@@ -27,13 +27,6 @@
                 android:textStyle="bold"
                 android:textSize="15sp"/>
 
-            <ImageView
-                android:id="@+id/ivFavoriteIcon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:clickable="true"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="16dp"/>
         </LinearLayout>
 
         <ImageView
@@ -49,11 +42,7 @@
             android:orientation="horizontal"
             android:layout_marginTop="8dp">
 
-            <TextView
-                android:id="@+id/tvPrice_carListFragment"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+
 
             <!-- Add other car details TextViews -->
 
