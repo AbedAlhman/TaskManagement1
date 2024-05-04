@@ -7,9 +7,14 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Spinner;
 
-import com.google.android.material.button.MaterialButton;
+import com.example.taskmanagement.FireeBase.FirebaseServices;
+import com.google.firebase.installations.Utils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,7 +24,21 @@ import com.google.android.material.button.MaterialButton;
 public class AddNoteFragment extends Fragment {
 
     private EditText titleInput, descriptionInput;
-    private MaterialButton saveBtn;
+    private Button saveBtn;
+
+   Spinner spnImp;
+   ImageView img;
+
+   private String imageStr;
+   private FirebaseServices fbs;
+   private Utils utils;
+
+
+    private ArrayAdapter<CharSequence> colorAdapter;
+
+
+
+
 
 
 

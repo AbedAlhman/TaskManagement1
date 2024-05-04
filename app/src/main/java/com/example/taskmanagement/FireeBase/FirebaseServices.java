@@ -1,4 +1,6 @@
-package com.example.taskmanagement;
+package com.example.taskmanagement.FireeBase;
+
+import android.net.Uri;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -8,8 +10,16 @@ public class FirebaseServices {
     private static FirebaseServices instance;
     private FirebaseAuth auth;
     private FirebaseFirestore fire;
+    private Uri selectedImageURL;
     private FirebaseStorage storage;
 
+    public Uri getSelectedImageURL() {
+        return selectedImageURL;
+    }
+
+    public void setSelectedImageURL(Uri selectedImageURL) {
+        this.selectedImageURL = selectedImageURL;
+    }
     public FirebaseServices(){
         auth = FirebaseAuth.getInstance();
         fire = FirebaseFirestore.getInstance();
