@@ -14,4 +14,11 @@
     <string name="forgot_password">Forgot Password</string>
     <string name="name">Name</string>
     <string name="task">Task</string>
+    <string-array name="array_importance">
+        <item>Task Importance</item>
+
+        <item>Very Important</item>
+        <item>Important</item>
+        <item>Not Important</item>
+    </string-array>
 </resources>

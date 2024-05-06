@@ -8,10 +8,10 @@ import com.google.firebase.storage.FirebaseStorage;
 
 public class FirebaseServices {
     private static FirebaseServices instance;
-    private FirebaseAuth auth;
-    private FirebaseFirestore fire;
+    private final FirebaseAuth auth;
+    private final FirebaseFirestore fire;
     private Uri selectedImageURL;
-    private FirebaseStorage storage;
+    private final FirebaseStorage storage;
 
     public Uri getSelectedImageURL() {
         return selectedImageURL;

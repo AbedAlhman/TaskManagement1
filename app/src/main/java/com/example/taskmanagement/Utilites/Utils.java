@@ -21,7 +21,7 @@ public class Utils {
 
     private static Utils instance;
 
-    private FirebaseServices fbs;
+    private final FirebaseServices fbs;
     private String imageStr;
 
     public Utils()
