@@ -22,6 +22,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.taskmanagement.FireeBase.FirebaseServices;
+import com.example.taskmanagement.MainActivity;
+import com.example.taskmanagement.R;
 import com.example.taskmanagement.pages.Note;
 import com.example.taskmanagement.pages.NoteItem;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -43,13 +45,14 @@ public class AddNoteFragment extends Fragment {
 
     Spinner spnImp;
     ImageView img;
+    private static final int GALLERY_REQUEST_CODE = 123;
 
     private String imageStr;
     private FirebaseServices fbs;
-    private Utils utils;
+    private com.example.taskmanagement.Utilites.Utils utils;
 
 
-    private ArrayAdapter<CharSequence> colorAdapter;
+    private ArrayAdapter<CharSequence> ImportanceAdapter;
 
 
     String[] Importance = {"Very Important", "Important", "Not Important"};
@@ -100,7 +103,7 @@ public class AddNoteFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_note, container, false);
+        return inflater.inflate(R.layout.fragment_add_note,container,false);
     }
 
     @Override
@@ -157,13 +160,13 @@ public class AddNoteFragment extends Fragment {
     });
 //////////////////////try spinner////////////////////////////////////////////////////////
 
-    colorAdapter=ArrayAdapter.createFromResource(
+        ImportanceAdapter=ArrayAdapter.createFromResource(
 
     getActivity(),R.array.array_importance,R.layout.spinner_layout);
     ////////////////////////////////try new spinner ///////////////////////////
-        colorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ImportanceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        spnImp.setAdapter(colorAdapter);
+        spnImp.setAdapter(ImportanceAdapter);
 
         img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,63 +176,46 @@ public class AddNoteFragment extends Fragment {
         });
         ((MainActivity)getActivity()).pushFragment(new AddNoteFragment());
     }
-}
 
-private void addToFirestore() {
+    private void addToFirestore() {
 
-    String title,description;
-    String importance;
-//get data from screen
+        String title,description;
+        String importance;
+    //get data from screen
 
-    title= titleInput.getText().toString();
-    description = descriptionInput.getText().toString();
-    importance = spnImp.getSelectedItem().toString();
+        title= titleInput.getText().toString();
+        description = descriptionInput.getText().toString();
+        importance = spnImp.getSelectedItem().toString();
 
-    //מספר טלפון לא חייב לבדוק
-//        if(phone==null){
-//            phone="-";
-//            return;
-//        }
-    if (title.trim().isEmpty() || description.trim().isEmpty() || importance.trim().isEmpty()
-            ) {
-        Toast.makeText(getActivity(), "sorry some data missing incorrect !", Toast.LENGTH_SHORT).show();
-        return;
-    }
+        //מספר טלפון לא חייב לבדוק
+    //        if(phone==null){
+    //            phone="-";
+    //            return;
+    //        }
+        if (title.trim().isEmpty() || description.trim().isEmpty() || importance.trim().isEmpty()
+                ) {
+            Toast.makeText(getActivity(), "sorry some data missing incorrect !", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-    Note note;
-    NoteItem note2;
-    if (fbs.getSelectedImageURL() == null) {
-        note = new Note(title, description,importance, "");
-        note2 = new NoteItem(UUID.randomUUID().toString(), title, description, importance, "");
-    } else {
-        note = new Note(title,description,importance, fbs.getSelectedImageURL().toString());
-        note2 = new NoteItem(UUID.randomUUID().toString(), title,description,importance, fbs.getSelectedImageURL().toString());
+        Note note;
+        NoteItem note2;
+        if (fbs.getSelectedImageURL() == null) {
+            note = new Note(title, description,importance, "");
+            note2 = new NoteItem(UUID.randomUUID().toString(), title, description, importance, "");
+        } else {
+            note = new Note(title,description,importance, fbs.getSelectedImageURL().toString());
+            note2 = new NoteItem(UUID.randomUUID().toString(), title,description,importance, fbs.getSelectedImageURL().toString());
 
-    }
+        }
 
-    fbs.getFire().collection("cars").add(car)
-            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                @Override
-                public void onSuccess(DocumentReference documentReference) {
-                    Toast.makeText(getActivity(), "ADD Car is Succesed ", Toast.LENGTH_SHORT).show();
-                    Log.e("addToFirestore() - add to collection: ", "Successful!");
-                    gotoCarList();
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.e("addToFirestore() - add to collection: ", e.getMessage());
-                }
-            });
-
-    try {
-        fbs.getFire().collection("cars2").add(car2)
+        fbs.getFire().collection("cars").add(note)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        //Toast.makeText(getActivity(), "ADD Car is Succesed ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "ADD Car is Succesed ", Toast.LENGTH_SHORT).show();
                         Log.e("addToFirestore() - add to collection: ", "Successful!");
-                        //gotoCarList();
+                        gotoNoteList();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -237,36 +223,52 @@ private void addToFirestore() {
                         Log.e("addToFirestore() - add to collection: ", e.getMessage());
                     }
                 });
-    } catch (Exception ex) {
-        Log.e("AddCarFragment: addToFirestore()", ex.getMessage());
+
+        try {
+            fbs.getFire().collection("cars2").add(note2)
+                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            //Toast.makeText(getActivity(), "ADD Car is Succesed ", Toast.LENGTH_SHORT).show();
+                            Log.e("addToFirestore() - add to collection: ", "Successful!");
+                            //gotoCarList();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.e("addToFirestore() - add to collection: ", e.getMessage());
+                        }
+                    });
+        } catch (Exception ex) {
+            Log.e("AddCarFragment: addToFirestore()", ex.getMessage());
+        }
     }
-}
 
-
-private void openGallery() {
-    Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-    startActivityForResult(galleryIntent, GALLERY_REQUEST_CODE);
-}
-
-@Override
-public void onActivityResult(int requestCode, int resultCode, Intent data) {
-    super.onActivityResult(requestCode, resultCode, data);
-
-    if (requestCode == GALLERY_REQUEST_CODE && resultCode == getActivity().RESULT_OK && data != null) {
-        Uri selectedImageUri = data.getData();
-        img.setImageURI(selectedImageUri);
-        utils.uploadImage(getActivity(), selectedImageUri);
+    private void openGallery() {
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(galleryIntent, GALLERY_REQUEST_CODE);
     }
-}
 
-public void gotoCarList() {
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-    FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-    ft.replace(R.id.frameLayout, new CarListMapFragment());
-    ft.commit();
-}
+        if (requestCode == GALLERY_REQUEST_CODE && resultCode == getActivity().RESULT_OK && data != null) {
+            Uri selectedImageUri = data.getData();
+            img.setImageURI(selectedImageUri);
+            utils.uploadImage(getActivity(), selectedImageUri);
+        }
+    }
 
-public void toBigImg(View view) {
+    public void gotoNoteList() {
+
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frameLayout, new CarListMapFragment());
+        ft.commit();
+    }
+
+    public void toBigImg(View view) {
+    }
 }
 
     /*
@@ -303,6 +305,4 @@ public void toBigImg(View view) {
             Toast.makeText(getActivity(), "Please choose an image first", Toast.LENGTH_SHORT).show();
         }
     } */
-}
 
-        }
