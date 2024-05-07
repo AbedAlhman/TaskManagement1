@@ -1,4 +1,4 @@
-package com.example.taskmanagement;
+package com.example.taskmanagement.pages;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -22,6 +22,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.taskmanagement.FireeBase.FirebaseServices;
+import com.example.taskmanagement.pages.Note;
+import com.example.taskmanagement.pages.NoteItem;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
@@ -179,58 +181,29 @@ private void addToFirestore() {
     String importance;
 //get data from screen
 
-    title = .getText().toString();
-    description = de.getText().toString();
-    owners = etOwners.getText().toString();
-    color = colorSpinner.getSelectedItem().toString();
-    phone = etPhone.getText().toString();
-    car_num = etCar_num.getText().toString();
-    manufacturer = etManufacturer.getText().toString();
-    year = yearOfCarSpinner.getSelectedItem().toString();
-    Car_model = etCar_model.getText().toString();
-    test = etTest.getText().toString();
-    kilometre = etkilometre.getText().toString();
-    Engine_capacity = etEngine_capacity.getText().toString();
-    Gear_shifting_model = "DSG";
-    price = etPrice.getText().toString();
+    title= titleInput.getText().toString();
+    description = descriptionInput.getText().toString();
+    importance = spnImp.getSelectedItem().toString();
+
     //מספר טלפון לא חייב לבדוק
 //        if(phone==null){
 //            phone="-";
 //            return;
 //        }
-    if (nameCar.trim().isEmpty() ||
-            horse_power.trim().isEmpty() ||
-            owners.trim().isEmpty() ||
-            color.trim().isEmpty() ||
-            car_num.trim().isEmpty() ||
-            manufacturer.trim().isEmpty() ||
-            year.trim().isEmpty() ||
-            Car_model.trim().isEmpty() ||
-            test.trim().isEmpty() ||
-            kilometre.trim().isEmpty() ||
-            Engine_capacity.trim().isEmpty() ||
-            Gear_shifting_model.trim().isEmpty() ||
-            price.trim().isEmpty()) {
+    if (title.trim().isEmpty() || description.trim().isEmpty() || importance.trim().isEmpty()
+            ) {
         Toast.makeText(getActivity(), "sorry some data missing incorrect !", Toast.LENGTH_SHORT).show();
         return;
     }
 
-    Car car;
-    CarItem car2;
+    Note note;
+    NoteItem note2;
     if (fbs.getSelectedImageURL() == null) {
-        car = new Car(nameCar, horse_power, owners, phone, color,
-                car_num, manufacturer, year, Car_model,
-                test, kilometre, Engine_capacity, Gear_shifting_model, price, "");
-        car2 = new CarItem(UUID.randomUUID().toString(), nameCar, horse_power, owners, phone, color,
-                car_num, manufacturer, year, Car_model,
-                test, kilometre, Engine_capacity, Gear_shifting_model, price, "");
+        note = new Note(title, description,importance, "");
+        note2 = new NoteItem(UUID.randomUUID().toString(), title, description, importance, "");
     } else {
-        car = new Car(nameCar, horse_power, owners, phone, color,
-                car_num, manufacturer, year, Car_model,
-                test, kilometre, Engine_capacity, Gear_shifting_model, price, fbs.getSelectedImageURL().toString());
-        car2 = new CarItem(UUID.randomUUID().toString(), nameCar, horse_power, owners, phone, color,
-                car_num, manufacturer, year, Car_model,
-                test, kilometre, Engine_capacity, Gear_shifting_model, price, fbs.getSelectedImageURL().toString());
+        note = new Note(title,description,importance, fbs.getSelectedImageURL().toString());
+        note2 = new NoteItem(UUID.randomUUID().toString(), title,description,importance, fbs.getSelectedImageURL().toString());
 
     }
 
