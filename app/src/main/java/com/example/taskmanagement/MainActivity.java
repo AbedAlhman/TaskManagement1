@@ -9,6 +9,7 @@ import android.widget.FrameLayout;
 
 import com.example.taskmanagement.FireeBase.FirebaseServices;
 import com.example.taskmanagement.pages.LoginFragment;
+import com.example.taskmanagement.pages.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Stack;
@@ -17,7 +18,6 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseServices fbs;
     private BottomNavigationView bottomNavigationView;
-    private ListFragmentType listType;
     private Stack<Fragment> fragmentStack = new Stack<>();
     private FrameLayout fragmentContainer;
     private User userData;

@@ -48,4 +48,9 @@ public class FirebaseServices {
         return instance;
      }
 
+    public static FirebaseServices reloadInstance(){
+        instance=new FirebaseServices();
+        return instance;
+    }
+
 }

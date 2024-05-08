@@ -17,22 +17,22 @@ import com.google.firebase.storage.UploadTask;
 
 import java.util.UUID;
 
-public class Utils {
+public class Utilss {
 
-    private static Utils instance;
+    private static Utilss instance;
 
     private final FirebaseServices fbs;
     private String imageStr;
 
-    public Utils()
+    public Utilss()
     {
         fbs = FirebaseServices.getInstance();
     }
 
-    public static Utils getInstance()
+    public static Utilss getInstance()
     {
         if (instance == null)
-            instance = new Utils();
+            instance = new Utilss();
 
         return instance;
     }

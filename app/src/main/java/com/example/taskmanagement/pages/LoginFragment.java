@@ -122,6 +122,8 @@ public class LoginFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            fbs = FirebaseServices.reloadInstance();
+                            gotoAddNoteFragmament();
                             Toast.makeText(getActivity(),"very nice", Toast.LENGTH_SHORT).show();
 
                         } else {
@@ -135,15 +137,22 @@ public class LoginFragment extends Fragment {
         });
     }
 
-    private void gotoSignupFragment() {
-        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.frameLayoutMain, new SignupFragment());
+
+    private void gotoAddNoteFragmament() {
+        FragmentTransaction ft= getActivity().getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frameLayout,new AddNoteFragment());
         ft.commit();
     }
-
-    private void gotoForgotPasswordFragment() {
-        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.frameLayoutMain, new ForgotPasswordFragment());
+    private void gotoSignupFragment() {
+        FragmentTransaction ft= getActivity().getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frameLayout,new SignupFragment());
         ft.commit();
+
+    }
+    private void gotoForgotPasswordFragment() {
+        FragmentTransaction ft= getActivity().getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frameLayout,new ForgotPasswordFragment());
+        ft.commit();
+
     }
 }

@@ -13,7 +13,7 @@ public class User {
     private String photo;
     private ArrayList<String> favorites;
 
-    public User() {
+    public User(String username, String etUsername) {
     }
 
     public User(String firstName, String lastName, String username, String phone, String address, String photo) {

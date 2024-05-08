@@ -24,8 +24,7 @@ import android.widget.Toast;
 import com.example.taskmanagement.FireeBase.FirebaseServices;
 import com.example.taskmanagement.MainActivity;
 import com.example.taskmanagement.R;
-import com.example.taskmanagement.pages.Note;
-import com.example.taskmanagement.pages.NoteItem;
+import com.example.taskmanagement.Utilites.Utilss;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
@@ -49,7 +48,7 @@ public class AddNoteFragment extends Fragment {
 
     private String imageStr;
     private FirebaseServices fbs;
-    private com.example.taskmanagement.Utilites.Utils utils;
+    private Utilss utils;
 
 
     private ArrayAdapter<CharSequence> ImportanceAdapter;
@@ -116,7 +115,7 @@ public class AddNoteFragment extends Fragment {
         // ---->    פרטי הוספת רכב    <----
         //editText
         fbs = FirebaseServices.getInstance();
-        utils = Utils.getInstance();
+        utils = Utilss.getInstance();
         titleInput = getView().findViewById(R.id.titleinput);
         descriptionInput = getView().findViewById(R.id.descriptioninput);
         saveBtn = getView().findViewById(R.id.savebtn);
@@ -263,7 +262,7 @@ public class AddNoteFragment extends Fragment {
     public void gotoNoteList() {
 
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.frameLayout, new CarListMapFragment());
+        ft.replace(R.id.frameLayout, new NoteListFragment());
         ft.commit();
     }
 

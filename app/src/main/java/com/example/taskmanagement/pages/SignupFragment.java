@@ -1,22 +1,33 @@
 package com.example.taskmanagement.pages;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.taskmanagement.FireeBase.FirebaseServices;
+import com.example.taskmanagement.MainActivity;
 import com.example.taskmanagement.R;
+import com.example.taskmanagement.Utilites.Utilss;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.firestore.DocumentReference;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +36,8 @@ import com.google.firebase.auth.AuthResult;
  */
 public class SignupFragment extends Fragment {
 
+    private static final int GALLERY_REQUEST_CODE = 123;
+    ImageView ivUserPhoto;
 
     private EditText etUsername, etPassword;
     private Button btnSignup;
@@ -97,21 +110,65 @@ public class SignupFragment extends Fragment {
                     return;
 
                 }
+                User user = new User(username,password);
 
                 fbs.getAuth().createUserWithEmailAndPassword(username,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                              Toast.makeText(getActivity(),"nice", Toast.LENGTH_SHORT).show();
+
+                        if (task.isSuccessful())
+                        {
+                            fbs.getFire().collection("users").add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    gotoAddNoteFragment();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.e("SignupFragment: signupOnClick: ", e.getMessage());
+                                }
+                            });
+                            // String firstName, String lastName, String username, String phone, String address, String photo) {
+                            Toast.makeText(getActivity(), "you have succesfully signed up", Toast.LENGTH_SHORT).show();
                         }
-                        else{
-                            Toast.makeText(getActivity(),"not nice", Toast.LENGTH_SHORT).show();
+                        else
+                        {
+                            Toast.makeText(getActivity(), "failed to sign up! check user or password", Toast.LENGTH_SHORT).show();
 
                         }
 
                     }
                 });
+
+
             }
         });
+        ((MainActivity)getActivity()).pushFragment(new SignupFragment());
     }
+
+    private void openGallery() {
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(galleryIntent, GALLERY_REQUEST_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == GALLERY_REQUEST_CODE && resultCode == getActivity().RESULT_OK && data != null) {
+            Uri selectedImageUri = data.getData();
+            ivUserPhoto.setImageURI(selectedImageUri);
+            Utilss.getInstance().uploadImage(getActivity(), selectedImageUri);
+        }
+    }
+
+    public void gotoAddNoteFragment()
+    {
+        FragmentTransaction ft=getActivity().getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frameLayout,new AddNoteFragment());
+        ft.commit();
+    }
+
+
 }
