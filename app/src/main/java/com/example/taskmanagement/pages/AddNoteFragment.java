@@ -28,7 +28,6 @@ import com.example.taskmanagement.Utilites.Utilss;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.installations.Utils;
 
 import java.util.UUID;
 
@@ -116,10 +115,10 @@ public class AddNoteFragment extends Fragment {
         //editText
         fbs = FirebaseServices.getInstance();
         utils = Utilss.getInstance();
-        titleInput = getView().findViewById(R.id.titleinput);
-        descriptionInput = getView().findViewById(R.id.descriptioninput);
+        titleInput = getView().findViewById(R.id.etTitleInput);
+        descriptionInput = getView().findViewById(R.id.etDescriptionInput);
         saveBtn = getView().findViewById(R.id.savebtn);
-        img = getView().findViewById(R.id.ivCarAddCarFragment);
+        img = getView().findViewById(R.id.ivNoteAddCarFragment);
 
         //spinner for the color of car
         spnImp = getView().findViewById(R.id.spnImp);
@@ -201,18 +200,18 @@ public class AddNoteFragment extends Fragment {
         NoteItem note2;
         if (fbs.getSelectedImageURL() == null) {
             note = new Note(title, description,importance, "");
-            note2 = new NoteItem(UUID.randomUUID().toString(), title, description, importance, "");
+            note2 = new NoteItem(title, description, importance, "");
         } else {
             note = new Note(title,description,importance, fbs.getSelectedImageURL().toString());
-            note2 = new NoteItem(UUID.randomUUID().toString(), title,description,importance, fbs.getSelectedImageURL().toString());
+            note2 = new NoteItem(title,description,importance, fbs.getSelectedImageURL().toString());
 
         }
 
-        fbs.getFire().collection("cars").add(note)
+        fbs.getFire().collection("notes").add(note)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Toast.makeText(getActivity(), "ADD Car is Succesed ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "ADD Note is Succesed ", Toast.LENGTH_SHORT).show();
                         Log.e("addToFirestore() - add to collection: ", "Successful!");
                         gotoNoteList();
                     }
@@ -224,7 +223,7 @@ public class AddNoteFragment extends Fragment {
                 });
 
         try {
-            fbs.getFire().collection("cars2").add(note2)
+            fbs.getFire().collection("notes2").add(note2)
                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {

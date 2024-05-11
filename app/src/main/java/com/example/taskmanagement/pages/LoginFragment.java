@@ -123,7 +123,7 @@ public class LoginFragment extends Fragment {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             fbs = FirebaseServices.reloadInstance();
-                            gotoAddNoteFragmament();
+                            gotoAddNoteFragment();
                             Toast.makeText(getActivity(),"very nice", Toast.LENGTH_SHORT).show();
 
                         } else {
@@ -138,7 +138,7 @@ public class LoginFragment extends Fragment {
     }
 
 
-    private void gotoAddNoteFragmament() {
+    private void gotoAddNoteFragment() {
         FragmentTransaction ft= getActivity().getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.frameLayout,new AddNoteFragment());
         ft.commit();

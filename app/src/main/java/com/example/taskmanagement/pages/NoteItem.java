@@ -10,8 +10,13 @@ public class NoteItem implements Parcelable {
 
     private String photo;
 
-    public NoteItem(String string, String title, String description, String importance, String s) {
+    public NoteItem(String string, String title, String description, String importance, String photo) {
+        this.title = title;
+        this.description = description;
+        this.importance = importance;
+        this.photo = photo;
     }
+
 
     public NoteItem(String title,String description,String importance, String photo) {
         this.title = title;

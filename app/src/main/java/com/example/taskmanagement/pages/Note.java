@@ -13,7 +13,7 @@ public class Note implements Parcelable {
     public Note() {
     }
 
-    public Note(String title,String  description, String photo,String importance) {
+    public Note(String title,String  description,String importance, String photo) {
         this.title = title;
         this.description = description;
         this.importance =importance ;
