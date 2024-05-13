@@ -19,19 +19,15 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseServices fbs;
     private BottomNavigationView bottomNavigationView;
-    private Stack<Fragment> fragmentStack = new Stack<>();
     private FrameLayout fragmentContainer;
     private User userData;
-    public BottomNavigationView getBottomNavigationView() {
-        return bottomNavigationView;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        gotoAddNoteFragment();
-        //gotoLoginFragment();
+       // gotoAddNoteFragment();
+        gotoLoginFragment();
     }
 
         private void gotoLoginFragment(){
@@ -41,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void pushFragment(Fragment fragment) {
-        fragmentStack.push(fragment);
         /*
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frameLayout, fragment)
