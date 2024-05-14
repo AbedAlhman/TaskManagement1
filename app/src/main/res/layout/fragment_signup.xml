@@ -11,15 +11,16 @@
         android:layout_height="match_parent">
 
         <EditText
-            android:id="@+id/etUsernameSignup"
+            android:id="@+id/etemailSignup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="196dp"
+            android:layout_marginTop="172dp"
             android:ems="10"
-            android:hint="Username"
+            android:hint="Email..."
             android:inputType="textEmailAddress"
             android:minHeight="48dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.472"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,23 +28,70 @@
             android:id="@+id/etPasswordSignup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="77dp"
+            android:layout_marginTop="136dp"
             android:ems="10"
             android:hint="Password"
             android:inputType="textPassword"
             android:minHeight="48dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.472"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etUsernameSignup" />
+            app:layout_constraintTop_toBottomOf="@+id/etemailSignup" />
 
         <Button
             android:id="@+id/btnSignupSignup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="89dp"
+            android:layout_marginTop="260dp"
             android:text="Sginup"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etPasswordSignup" />
+
+        <EditText
+            android:id="@+id/etLName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="LastName..."
+            android:inputType="text"
+            tools:layout_editor_absoluteX="95dp"
+            tools:layout_editor_absoluteY="266dp" />
+
+        <ImageView
+            android:id="@+id/imgProfile"
+            android:layout_width="205dp"
+            android:layout_height="195dp"
+            android:src="@drawable/user"
+            tools:layout_editor_absoluteX="100dp"
+            tools:layout_editor_absoluteY="435dp" />
+
+        <EditText
+            android:id="@+id/etFName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="FirstName..."
+            android:inputType="text"
+            tools:layout_editor_absoluteX="95dp"
+            tools:layout_editor_absoluteY="221dp" />
+
+        <EditText
+            android:id="@+id/etUName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="UserName..."
+            android:inputType="text"
+            tools:layout_editor_absoluteX="95dp"
+            tools:layout_editor_absoluteY="311dp" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="209dp"
+            android:layout_height="146dp"
+            android:src="@drawable/logo_transparent"
+            tools:layout_editor_absoluteX="95dp"
+            tools:layout_editor_absoluteY="26dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

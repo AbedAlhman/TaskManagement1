@@ -1,31 +1,28 @@
-package com.example.taskmanagement.pages;
+package com.example.taskmanagement.FireeBase;
+
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class NoteItem implements Parcelable {
-    private String title;
-    private String description;
-    private  String importance;//כוח סוס
+import com.example.taskmanagement.FireeBase.User;
 
+public class Note implements Parcelable {
+    private String title;
+    private  String description;//כוח סוס
+    private  String importance; //בעלים
     private String photo;
 
-    public NoteItem(String string, String title, String description, String importance, String photo) {
+    public Note() {
+    }
+
+    public Note(String title,String  description,String importance, String photo) {
         this.title = title;
         this.description = description;
-        this.importance = importance;
+        this.importance =importance ;
         this.photo = photo;
     }
 
-
-    public NoteItem(String title,String description,String importance, String photo) {
-        this.title = title;
-        this.description = description;
-        this.importance = importance;
-        this.photo = photo;
-    }
-
-    protected NoteItem(Parcel in) {
+    protected Note(Parcel in) {
         this.title = in.readString();
         this.description = in.readString();
         this.importance = in.readString();
@@ -65,7 +62,7 @@ public class NoteItem implements Parcelable {
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        this.description=description;
     }
 
     public String getImportance() {
@@ -89,7 +86,7 @@ public class NoteItem implements Parcelable {
     public String toString() {
         return "Note{" +
                 "title='" + title + '\'' +
-                "description='" + description + '\'' +
+                ", description='" + description + '\'' +
                 ", importance='" + importance + '\'' +
                 ", photo='" + photo + '\'' +
                 '}';
@@ -101,4 +98,3 @@ public class NoteItem implements Parcelable {
     }
 
 }
-

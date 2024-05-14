@@ -10,10 +10,8 @@ import android.widget.FrameLayout;
 import com.example.taskmanagement.FireeBase.FirebaseServices;
 import com.example.taskmanagement.pages.AddNoteFragment;
 import com.example.taskmanagement.pages.LoginFragment;
-import com.example.taskmanagement.pages.User;
+import com.example.taskmanagement.FireeBase.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import java.util.Stack;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,13 +24,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-       // gotoAddNoteFragment();
+        //gotoAddNoteFragment();
         gotoLoginFragment();
     }
 
-        private void gotoLoginFragment(){
+    private void gotoLoginFragment(){
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.frameLayoutMain, new LoginFragment());
+        ft.replace(R.id.frameLayout, new LoginFragment());
         ft.commit();
     }
 

@@ -1,6 +1,10 @@
 package com.example.taskmanagement.pages;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -19,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.taskmanagement.FireeBase.FirebaseServices;
+import com.example.taskmanagement.FireeBase.User;
 import com.example.taskmanagement.MainActivity;
 import com.example.taskmanagement.R;
 import com.example.taskmanagement.Utilites.Utilss;
@@ -28,6 +33,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
+import java.util.UUID;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,9 +47,9 @@ import com.google.firebase.firestore.DocumentReference;
 public class SignupFragment extends Fragment {
 
     private static final int GALLERY_REQUEST_CODE = 123;
-    ImageView ivUserPhoto;
+    ImageView Profile;
 
-    private EditText etUsername, etPassword;
+    private EditText FirsName,LastName,UserName,etEmail, etPassword;
     private Button btnSignup;
 
     private FirebaseServices fbs;
@@ -97,22 +107,37 @@ public class SignupFragment extends Fragment {
     public void onStart() {
         super.onStart();
         fbs= FirebaseServices.getInstance();
-        etUsername= getView().findViewById(R.id.etUsernameSignup);
+        etEmail= getView().findViewById(R.id.etemailSignup);
+        FirsName=getView().findViewById(R.id.etFName);
+        LastName=getView().findViewById(R.id.etLName);
+        UserName=getView().findViewById(R.id.etUName);
         etPassword= getView().findViewById(R.id.etPasswordSignup);
+        Profile=getView().findViewById(R.id.imgProfile);
         btnSignup= getView().findViewById(R.id.btnSignupSignup);
+        Profile.setOnClickListener(new View.OnClickListener() {
+                                       @Override
+                                       public void onClick(View v) {
+                                           openGallery();
+                                       }
+        });
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String username= etUsername .getText().toString();
+                String email= etEmail .getText().toString();
+                String firstname=  FirsName.getText().toString();
+                String lastName= LastName .getText().toString();
+                String username= UserName.getText().toString();
                 String password= etPassword .getText().toString();
-                if (username.trim().isEmpty() && password.trim().isEmpty()){
+
+
+                if (email.trim().isEmpty() && password.trim().isEmpty()&&firstname.trim().isEmpty()&&lastName.trim().isEmpty()){
                     Toast.makeText(getActivity(), "some fields are empty!", Toast.LENGTH_SHORT).show();
                     return;
 
                 }
-                User user = new User(username,password);
+                User user = new User(email,firstname,lastName,username,password);
 
-                fbs.getAuth().createUserWithEmailAndPassword(username,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                fbs.getAuth().createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
@@ -158,7 +183,7 @@ public class SignupFragment extends Fragment {
 
         if (requestCode == GALLERY_REQUEST_CODE && resultCode == getActivity().RESULT_OK && data != null) {
             Uri selectedImageUri = data.getData();
-            ivUserPhoto.setImageURI(selectedImageUri);
+            Profile.setImageURI(selectedImageUri);
             Utilss.getInstance().uploadImage(getActivity(), selectedImageUri);
         }
     }
@@ -168,6 +193,26 @@ public class SignupFragment extends Fragment {
         FragmentTransaction ft=getActivity().getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.frameLayout,new AddNoteFragment());
         ft.commit();
+    }
+    private String UploadImageToFirebase(){
+        BitmapDrawable drawable = (BitmapDrawable) Profile.getDrawable();
+        Bitmap Image = drawable.getBitmap();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        Image.compress(Bitmap.CompressFormat.JPEG,100,baos);
+        byte[]data= baos.toByteArray();
+        StorageReference ref =fbs.getStorage().getReference("UserPicture/"+ UUID.randomUUID().toString());
+        UploadTask uploadTask =ref.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w(TAG, "Error with the picture", e);
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+            }
+        });
+        return ref.getPath();
     }
 
 

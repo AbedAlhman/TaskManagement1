@@ -1,6 +1,10 @@
 package com.example.taskmanagement.pages;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -22,13 +26,17 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.taskmanagement.FireeBase.FirebaseServices;
+import com.example.taskmanagement.FireeBase.Note;
 import com.example.taskmanagement.MainActivity;
 import com.example.taskmanagement.R;
 import com.example.taskmanagement.Utilites.Utilss;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.util.UUID;
 
 /**
@@ -43,6 +51,7 @@ public class AddNoteFragment extends Fragment {
 
     Spinner spnImp;
     ImageView img;
+    boolean isimage=false;
     private static final int GALLERY_REQUEST_CODE = 123;
 
     private String imageStr;
@@ -197,17 +206,14 @@ public class AddNoteFragment extends Fragment {
         }
 
         Note note;
-        NoteItem note2;
-        if (fbs.getSelectedImageURL() == null) {
+        if (!isimage) {
             note = new Note(title, description,importance, "");
-            note2 = new NoteItem(title, description, importance, "");
         } else {
-            note = new Note(title,description,importance, fbs.getSelectedImageURL().toString());
-            note2 = new NoteItem(title,description,importance, fbs.getSelectedImageURL().toString());
+            note = new Note(title,description,importance, UploadImageToFirebase());
 
         }
 
-        fbs.getFire().collection("notes").add(note)
+        fbs.getFire().collection("Note").add(note)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
@@ -222,24 +228,6 @@ public class AddNoteFragment extends Fragment {
                     }
                 });
 
-        try {
-            fbs.getFire().collection("notes2").add(note2)
-                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                        @Override
-                        public void onSuccess(DocumentReference documentReference) {
-                            //Toast.makeText(getActivity(), "ADD Car is Succesed ", Toast.LENGTH_SHORT).show();
-                            Log.e("addToFirestore() - add to collection: ", "Successful!");
-                            //gotoCarList();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.e("addToFirestore() - add to collection: ", e.getMessage());
-                        }
-                    });
-        } catch (Exception ex) {
-            Log.e("AddCarFragment: addToFirestore()", ex.getMessage());
-        }
     }
 
     private void openGallery() {
@@ -255,6 +243,7 @@ public class AddNoteFragment extends Fragment {
             Uri selectedImageUri = data.getData();
             img.setImageURI(selectedImageUri);
             utils.uploadImage(getActivity(), selectedImageUri);
+            isimage=true;
         }
     }
 
@@ -267,40 +256,25 @@ public class AddNoteFragment extends Fragment {
 
     public void toBigImg(View view) {
     }
+    private String UploadImageToFirebase(){
+        BitmapDrawable drawable = (BitmapDrawable) img.getDrawable();
+        Bitmap Image = drawable.getBitmap();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        Image.compress(Bitmap.CompressFormat.JPEG,100,baos);
+        byte[]data= baos.toByteArray();
+        StorageReference ref =fbs.getStorage().getReference("Notepicture/"+ UUID.randomUUID().toString());
+        UploadTask uploadTask =ref.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w(TAG, "Error with the picture", e);
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+            }
+        });
+        return ref.getPath();
+    }
 }
-
-    /*
-    public void uploadImage(Uri selectedImageUri) {
-        if (selectedImageUri != null) {
-            imageStr = "images/" + UUID.randomUUID() + ".jpg"; //+ selectedImageUri.getLastPathSegment();
-            StorageReference imageRef = fbs.getStorage().getReference().child("images/" + selectedImageUri.getLastPathSegment());
-
-            UploadTask uploadTask = imageRef.putFile(selectedImageUri);
-            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            //selectedImageUri = uri;
-                            fbs.setSelectedImageURL(uri);
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-
-                        }
-                    });
-                    Toast.makeText(getActivity(), "Image uploaded successfully", Toast.LENGTH_SHORT).show();
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(getActivity(), "Failed to upload image", Toast.LENGTH_SHORT).show();
-                }
-            });
-        } else {
-            Toast.makeText(getActivity(), "Please choose an image first", Toast.LENGTH_SHORT).show();
-        }
-    } */
 

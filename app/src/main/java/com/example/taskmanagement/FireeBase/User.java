@@ -1,28 +1,27 @@
-package com.example.taskmanagement.pages;
+package com.example.taskmanagement.FireeBase;
 
 import android.os.Parcel;
 
 import java.util.ArrayList;
 
 public class User {
+    private String email;
     private String firstName;
     private String lastName;
     private String username;
-    private String phone;
-
     private String photo;
-    private ArrayList<String> favorites;
+    private ArrayList<String> Notes;
 
     public User(String username, String etUsername) {
     }
 
-    public User(String firstName, String lastName, String username, String phone, String address, String photo) {
+    public User(String email,String firstName, String lastName, String username, String photo) {
+        this.email=email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
-        this.phone = phone;
         this.photo = photo;
-        this.favorites = new ArrayList<>();
+        this.Notes = new ArrayList<>();
     }
 
     public User(Parcel in) {
@@ -52,13 +51,7 @@ public class User {
         this.username = username;
     }
 
-    public String getPhone() {
-        return phone;
-    }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
 
 
 
@@ -71,11 +64,11 @@ public class User {
     }
 
     public ArrayList<String> getFavorites() {
-        return favorites;
+        return Notes;
     }
 
     public void setFavorites(ArrayList<String> favourits) {
-        this.favorites = favourits;
+        this.Notes = favourits;
     }
 
     @Override
@@ -84,7 +77,6 @@ public class User {
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", username='" + username + '\'' +
-                ", phone='" + phone + '\'' +
                 ", Photo='" + photo + '\'' +
                 '}';
     }
