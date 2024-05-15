@@ -27,16 +27,24 @@ import android.widget.Toast;
 
 import com.example.taskmanagement.FireeBase.FirebaseServices;
 import com.example.taskmanagement.FireeBase.Note;
+import com.example.taskmanagement.FireeBase.User;
+import com.example.taskmanagement.Home;
 import com.example.taskmanagement.MainActivity;
 import com.example.taskmanagement.R;
 import com.example.taskmanagement.Utilites.Utilss;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -54,7 +62,6 @@ public class AddNoteFragment extends Fragment {
     boolean isimage=false;
     private static final int GALLERY_REQUEST_CODE = 123;
 
-    private String imageStr;
     private FirebaseServices fbs;
     private Utilss utils;
 
@@ -219,7 +226,7 @@ public class AddNoteFragment extends Fragment {
                     public void onSuccess(DocumentReference documentReference) {
                         Toast.makeText(getActivity(), "ADD Note is Succesed ", Toast.LENGTH_SHORT).show();
                         Log.e("addToFirestore() - add to collection: ", "Successful!");
-                        gotoNoteList();
+                        Useradd( documentReference.getPath());
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -246,14 +253,6 @@ public class AddNoteFragment extends Fragment {
             isimage=true;
         }
     }
-
-    public void gotoNoteList() {
-
-        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.frameLayout, new NoteListFragment());
-        ft.commit();
-    }
-
     public void toBigImg(View view) {
     }
     private String UploadImageToFirebase(){
@@ -276,5 +275,36 @@ public class AddNoteFragment extends Fragment {
         });
         return ref.getPath();
     }
+    private void Useradd(String notepath) {
+        String userEmail = fbs.getAuth().getCurrentUser().getEmail();
+        fbs.getFire().collection("Users").whereEqualTo("email",userEmail).get()
+                .addOnSuccessListener((QuerySnapshot querySnapshot) -> {
+                    if (querySnapshot.isEmpty()) {
+                        System.out.println("No users found.");
+                        return;
+                    }
+                    System.out.println("Number of users: " + querySnapshot.size());
+
+                    for (DocumentSnapshot doc : querySnapshot.getDocuments()) {
+                        String userId = doc.getId();
+                        ArrayList<String> notes = (ArrayList<String>) doc.get("notes");
+                        notes.add(notepath);
+                        doc.getReference().update("notes", notes)
+                                .addOnSuccessListener(aVoid -> {
+                                    FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                                    ft.replace(R.id.frameLayout, new Home());
+                                    ft.commit();
+                                    System.out.println("ArrayList updated successfully.");
+                                })
+                                .addOnFailureListener(e -> {
+                                    System.out.println("Error updating ArrayList: " + e.getMessage());
+                                });
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    System.out.println("Error retrieving users: " + e.getMessage());
+                });
+    }
+
 }
 

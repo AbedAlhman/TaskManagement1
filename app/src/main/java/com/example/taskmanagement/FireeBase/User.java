@@ -12,9 +12,6 @@ public class User {
     private String photo;
     private ArrayList<String> Notes;
 
-    public User(String username, String etUsername) {
-    }
-
     public User(String email,String firstName, String lastName, String username, String photo) {
         this.email=email;
         this.firstName = firstName;
@@ -24,7 +21,18 @@ public class User {
         this.Notes = new ArrayList<>();
     }
 
+    public User() {
+    }
+
     public User(Parcel in) {
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getFirstName() {
@@ -51,9 +59,13 @@ public class User {
         this.username = username;
     }
 
+    public ArrayList<String> getNotes() {
+        return Notes;
+    }
 
-
-
+    public void setNotes(ArrayList<String> notes) {
+        Notes = notes;
+    }
 
     public String getPhoto() {
         return photo;
@@ -63,21 +75,17 @@ public class User {
         this.photo = photo;
     }
 
-    public ArrayList<String> getFavorites() {
-        return Notes;
-    }
 
-    public void setFavorites(ArrayList<String> favourits) {
-        this.Notes = favourits;
-    }
 
     @Override
     public String toString() {
         return "User{" +
-                "firstName='" + firstName + '\'' +
+                "email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", username='" + username + '\'' +
-                ", Photo='" + photo + '\'' +
+                ", photo='" + photo + '\'' +
+                ", Notes=" + Notes +
                 '}';
     }
 }

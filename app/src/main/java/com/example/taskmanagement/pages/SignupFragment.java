@@ -124,7 +124,7 @@ public class SignupFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String email= etEmail .getText().toString();
-                String firstname=  FirsName.getText().toString();
+                String firstname= FirsName.getText().toString();
                 String lastName= LastName .getText().toString();
                 String username= UserName.getText().toString();
                 String password= etPassword .getText().toString();
@@ -135,7 +135,7 @@ public class SignupFragment extends Fragment {
                     return;
 
                 }
-                User user = new User(email,firstname,lastName,username,password);
+                User user = new User(email,firstname,lastName,username,UploadImageToFirebase());
 
                 fbs.getAuth().createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -143,7 +143,7 @@ public class SignupFragment extends Fragment {
 
                         if (task.isSuccessful())
                         {
-                            fbs.getFire().collection("users").add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            fbs.getFire().collection("Users").add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
                                     gotoAddNoteFragment();
