@@ -146,7 +146,7 @@ public class AddNoteFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String value = parent.getItemAtPosition(position).toString();
-                //   Toast.makeText(getActivity(), value, Toast.LENGTH_SHORT).show();
+                   Toast.makeText(getActivity(), value, Toast.LENGTH_SHORT).show();
 
             }
 
@@ -206,7 +206,7 @@ public class AddNoteFragment extends Fragment {
     //            phone="-";
     //            return;
     //        }
-        if (title.trim().isEmpty() || description.trim().isEmpty() || importance.trim().isEmpty()
+        if (title.trim().isEmpty() && description.trim().isEmpty() && importance.trim().isEmpty()
                 ) {
             Toast.makeText(getActivity(), "sorry some data missing incorrect !", Toast.LENGTH_SHORT).show();
             return;

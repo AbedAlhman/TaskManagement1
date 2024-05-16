@@ -3,12 +3,14 @@ package com.example.taskmanagement;
 import static android.app.PendingIntent.getActivity;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -28,6 +30,9 @@ public class Noteadapter extends RecyclerView.Adapter<Noteadapter.MyViewHolder> 
     FirebaseServices fbs;
     Context context;
     ArrayList<Note>noteArrayList;
+    Spinner spn;
+
+
     private OnItemClickListener itemClickListener;
 
     public Noteadapter(Context context, ArrayList<Note> noteArrayList) {
@@ -48,6 +53,11 @@ public class Noteadapter extends RecyclerView.Adapter<Noteadapter.MyViewHolder> 
         fbs=FirebaseServices.getInstance();
         holder.note.setText(note.getTitle());
         holder.description.setText(note.getDescription());
+
+        if(note.getImportance()=="Very Important") holder.color.setBackgroundColor(Color.RED);
+            else if (note.getImportance()=="Important") holder.color.setBackgroundColor(Color.YELLOW);
+                else if (note.getImportance()=="Not Important") holder.color.setBackgroundColor(Color.WHITE);
+
        StorageReference storageRef= fbs.getStorage().getInstance().getReference().child(note.getPhoto());
        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
            @Override
@@ -73,12 +83,15 @@ public class Noteadapter extends RecyclerView.Adapter<Noteadapter.MyViewHolder> 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
         TextView  note,description;
         ImageView noteimage;
+        Spinner spnn;
         LinearLayout color;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             note=itemView.findViewById(R.id.notedesad);
             description=itemView.findViewById(R.id.notedesad);
             noteimage=itemView.findViewById(R.id.noteimage);
+            color=itemView.findViewById(R.id.layoutad);
+            spnn=itemView.findViewById(R.id.spnImp);
         }
 
     }
