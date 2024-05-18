@@ -10,32 +10,47 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/editTextText3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="text"
-            android:text="Name"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="196dp" />
-
-        <EditText
-            android:id="@+id/editTextText4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="text"
-            android:text="Name"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="144dp" />
+        <ImageView
+            android:id="@+id/ivPimage"
+            android:layout_width="113dp"
+            android:layout_height="97dp"
+            android:src="@drawable/user" />
 
         <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="151dp"
-            android:layout_height="99dp"
+            android:id="@+id/ivPimageUp"
+            android:layout_width="110dp"
+            android:layout_height="98dp"
             android:src="@drawable/user"
             tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="45dp" />
+            tools:layout_editor_absoluteY="185dp" />
+
+        <EditText
+            android:id="@+id/etLNameP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="LastName"
+            android:inputType="text"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="140dp" />
+
+        <EditText
+            android:id="@+id/etFnameP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="FirstName"
+            android:inputType="text"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="95dp" />
+
+        <Button
+            android:id="@+id/btnUpdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#8FDEA9"
+            android:text="Update"
+            tools:layout_editor_absoluteX="7dp"
+            tools:layout_editor_absoluteY="305dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

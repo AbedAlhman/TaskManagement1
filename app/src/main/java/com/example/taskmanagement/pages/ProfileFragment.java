@@ -7,8 +7,14 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.example.taskmanagement.FireeBase.FirebaseServices;
 import com.example.taskmanagement.R;
+import com.example.taskmanagement.Utilites.Utilss;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +31,21 @@ public class ProfileFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private EditText FName, LName;
+
+    private Button Update;
+
+    ImageView Profile;
+
+    private FirebaseServices fbs;
+
+    private Utilss utils;
+
+    private String imageS;
+
+
+
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -56,6 +77,43 @@ public class ProfileFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
+    public void onStart(){
+        super.onStart();
+        init();
+
+    }
+    private void init(){
+        fbs=FirebaseServices.getInstance();
+        FName=getView().findViewById(R.id.etFnameP);
+        LName=getView().findViewById(R.id.etLNameP);
+        Profile=getView().findViewById(R.id.ivPimage);
+        Update=getView().findViewById(R.id.btnUpdate);
+        utils=Utilss.getInstance();
+        if(imageS==null){
+
+        }
+
+
+
+
+        Update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String firstname=FName.getText().toString();
+                String lastname=LName.getText().toString();
+
+                if (firstname.trim().isEmpty() || lastname.trim().isEmpty())
+                    Toast.makeText(getActivity(), "some fields are empty", Toast.LENGTH_SHORT).show();
+                return;
+
+            }
+        });
+
+    }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

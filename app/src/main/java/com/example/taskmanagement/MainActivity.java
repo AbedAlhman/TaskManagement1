@@ -25,7 +25,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //gotoAddNoteFragment();
-        gotoLoginFragment();
+        //gotoLoginFragment();
+        gotoHome();
     }
 
     private void gotoLoginFragment(){
@@ -43,6 +44,11 @@ public class MainActivity extends AppCompatActivity {
     private void gotoAddNoteFragment() {
         FragmentTransaction ft= getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.frameLayout,new AddNoteFragment());
+        ft.commit();
+    }
+    private void gotoHome(){
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frameLayout, new Home());
         ft.commit();
     }
 }
