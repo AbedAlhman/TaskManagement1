@@ -1,16 +1,12 @@
 package com.example.taskmanagement.FireeBase;
 
 import android.net.Uri;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.example.taskmanagement.FireeBase.User;
-import com.example.taskmanagement.Utilites.Utilss;
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.example.taskmanagement.Utilites.UserCallback;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -21,8 +17,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class FirebaseServices {
 

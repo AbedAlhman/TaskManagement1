@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,7 +15,10 @@ import android.widget.TextView;
 
 import com.example.taskmanagement.FireeBase.FirebaseServices;
 import com.example.taskmanagement.FireeBase.Note;
+import com.example.taskmanagement.Utilites.Noteadapter;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -32,6 +34,8 @@ public class Home extends Fragment {
 
     RecyclerView recyclerView;
     ArrayList<Note> noteArrayList;
+    ArrayList<String> notephath;
+    int i;
     TextView signOut;
     Noteadapter noteadapter;
     FirebaseServices db;
@@ -93,37 +97,56 @@ public class Home extends Fragment {
         noteArrayList=new ArrayList<Note>();
         noteadapter= new Noteadapter(getActivity(),noteArrayList);
         recyclerView.setAdapter(noteadapter);
-        EventChangeListener();
+        Getuser();
+    }
+
+    private void Getuser() {
+        db.getFire().collection("Users").whereEqualTo("email", db.getAuth().getCurrentUser().getEmail())
+                .get()
+                .addOnSuccessListener((QuerySnapshot querySnapshot) -> {
+                    if (querySnapshot.isEmpty()) {
+                        System.out.println("No users found.");
+                        return;
+                    }
+
+                    System.out.println("Number of users: " + querySnapshot.size());
+
+                    for (DocumentSnapshot doc : querySnapshot.getDocuments()) {
+                        String userId = doc.getId();
+                        notephath = (ArrayList<String>) doc.get("notes");
+                    }
+                    Notes();
+                })
+                .addOnFailureListener(e -> {
+                    System.out.println("Error retrieving users: " + e.getMessage());
+                });
+    }
+
+    private void Notes() {
+        i=0;
+        while (i<notephath.size()){
+            DocumentReference userRef = db.getFire().collection("Note").document(notephath.get(i).replace("Note/",""));
+            userRef.get()
+                    .addOnSuccessListener((DocumentSnapshot documentSnapshot) -> {
+                        if (documentSnapshot.exists()) {
+                            Note note=documentSnapshot.toObject(Note.class);
+                            noteArrayList.add(note);
+                        } else {
+                            System.out.println("User document doesn't exist.");
+                        }
+                        if (i==noteArrayList.size())EventChangeListener();
+                    })
+                    .addOnFailureListener(e -> {
+                        System.out.println("Error retrieving user: " + e.getMessage());
+                    });
+            i=i+1;
+        }
     }
 
     private void EventChangeListener() {
-
-        db.getFire().collection("recipes").addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-/*
-                        if (error != null) {
-                            if (progressDialog.isShowing())
-                                progressDialog.dismiss();
-                            Log.e("Firestore error", error.getMessage());
-                            return;
-                        } */
-
-                for (DocumentChange dc : value.getDocumentChanges()) {
-                    if (dc.getType() == DocumentChange.Type.ADDED) {
-                        noteArrayList.add(dc.getDocument().toObject(Note.class));
-                    }
-
-                    noteadapter.notifyDataSetChanged();
-                            /*
-                            if (progressDialog.isShowing())
-                                progressDialog.dismiss(); */
-                }
-            }
-        });
+        noteadapter = new Noteadapter(getActivity(),noteArrayList);
+        recyclerView.setAdapter(noteadapter);
     }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

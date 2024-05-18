@@ -1,4 +1,4 @@
-package com.example.taskmanagement;
+package com.example.taskmanagement.Utilites;
 
 import static android.app.PendingIntent.getActivity;
 
@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.taskmanagement.FireeBase.FirebaseServices;
 import com.example.taskmanagement.FireeBase.Note;
+import com.example.taskmanagement.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.StorageReference;
@@ -31,6 +32,7 @@ public class Noteadapter extends RecyclerView.Adapter<Noteadapter.MyViewHolder> 
     Context context;
     ArrayList<Note>noteArrayList;
     Spinner spn;
+    LinearLayout color;
 
 
     private OnItemClickListener itemClickListener;
@@ -54,9 +56,9 @@ public class Noteadapter extends RecyclerView.Adapter<Noteadapter.MyViewHolder> 
         holder.note.setText(note.getTitle());
         holder.description.setText(note.getDescription());
 
-        if(note.getImportance()=="Very Important") holder.color.setBackgroundColor(Color.RED);
-            else if (note.getImportance()=="Important") holder.color.setBackgroundColor(Color.YELLOW);
-                else if (note.getImportance()=="Not Important") holder.color.setBackgroundColor(Color.WHITE);
+        if(note.getImportance().equals("Very Important")) holder.color.setBackground(R.color.RED);
+            else if (note.getImportance().equals("Important"))holder.color.setBackground(R.color.YELLOW);
+                else if (note.getImportance().equals("Not Important")) holder.color.setBackgroundColor(R.color.GREEN);
 
        StorageReference storageRef= fbs.getStorage().getInstance().getReference().child(note.getPhoto());
        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {

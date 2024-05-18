@@ -227,6 +227,7 @@ public class AddNoteFragment extends Fragment {
                         Toast.makeText(getActivity(), "ADD Note is Succesed ", Toast.LENGTH_SHORT).show();
                         Log.e("addToFirestore() - add to collection: ", "Successful!");
                         Useradd( documentReference.getPath());
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,new Home());
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
