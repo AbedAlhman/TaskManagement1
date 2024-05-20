@@ -31,8 +31,7 @@ public class Noteadapter extends RecyclerView.Adapter<Noteadapter.MyViewHolder> 
     FirebaseServices fbs;
     Context context;
     ArrayList<Note>noteArrayList;
-    Spinner spn;
-    LinearLayout color;
+
 
 
     private OnItemClickListener itemClickListener;
@@ -56,9 +55,9 @@ public class Noteadapter extends RecyclerView.Adapter<Noteadapter.MyViewHolder> 
         holder.note.setText(note.getTitle());
         holder.description.setText(note.getDescription());
 
-        if(note.getImportance().equals("Very Important")) holder.color.setBackground(R.color.RED);
-            else if (note.getImportance().equals("Important"))holder.color.setBackground(R.color.YELLOW);
-                else if (note.getImportance().equals("Not Important")) holder.color.setBackgroundColor(R.color.GREEN);
+        if(note.getImportance().equals("Very Important")) holder.color.setBackgroundResource(R.color.RED);
+            else if (note.getImportance().equals("Important"))holder.color.setBackgroundResource(R.color.YELLOW);
+            else if (note.getImportance().equals("Not Important")) holder.color.setBackgroundResource(R.color.white);
 
        StorageReference storageRef= fbs.getStorage().getInstance().getReference().child(note.getPhoto());
        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -89,7 +88,7 @@ public class Noteadapter extends RecyclerView.Adapter<Noteadapter.MyViewHolder> 
         LinearLayout color;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            note=itemView.findViewById(R.id.notedesad);
+            note=itemView.findViewById(R.id.notenamead);
             description=itemView.findViewById(R.id.notedesad);
             noteimage=itemView.findViewById(R.id.noteimage);
             color=itemView.findViewById(R.id.layoutad);
